@@ -1,0 +1,103 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<html ng-app="myApp">
+<head>
+    <title></title>
+    <script src="~/Scripts/angular.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/Module.js/Module.js"></script>
+    <script src="~/Content/Service.js/Service.js"></script>
+    <script src="~/Content/Controller.js/Controller.js"></script>
+    @*<script src="~/Content/Angular/dirPagination.js"></script>*@
+    <link href="~/css/Login.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        @*<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>*@
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="~/Content/xlsx-model.js"></script>
+</head>
+<body>
+
+    <div ng-controller="myCntrl">
+
+        <div id="login">
+            <h3 class="text-center text-white pt-5">Login form</h3>
+            <div class="container">
+                <div id="login-row" class="row justify-content-center align-items-center">
+                    <div id="login-column" class="col-md-6">
+                        <div id="login-box" class="col-md-12">
+                            <form id="login-form" class="form" action="" method="post">
+                                <h3 class="text-center text-info">Login</h3>
+                                <div class="form-group">
+                                    <label id="username" class="text-info">Username:</label><br>
+                                    <input type="text" name="username" id="Uname" class="form-control" ng-model="uName">
+                                    @*<div id="divuservalidationmsg" style="color:red" ng-cloak>
+                                        {{uservalidationmsg}}
+                                    </div>*@
+                                </div>
+                                <div class="form-group">
+                                    <label id="password" class="text-info">Password:</label><br>
+                                    <input type="password" name="password" id="password" class="form-control" ng-model="password">
+                                    @*<div id="divpasswordvalidationmsg" style="color:red" ng-cloak >
+                                        {{passwordvalidationmsg}}
+                                    </div>*@
+                                </div>
+                                @*<div id="divuserpasswordvalidationmsg" style="color:red" ng-cloak >
+                                    {{userpasswordvalidationmsg}}
+                                </div>*@
+                                <div>
+                                    <table>
+                                       
+                                                @*<label id="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label>*@
+                                           
+                                        <tr>
+                                            <td>
+                                                <table class="form-group">
+                                                    <tr>
+                                                        <td>
+                                                            <input type="submit" name="submit" class="btn btn-info btn-md" value="submit" ng-disabled="!(password && uName)" ng-click="LoginCheck()">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                
+                                            </td>
+                                            <td>
+
+                                                <table class="form-group">
+                                                    <tr>
+                                                        <td>
+                                                            <input type="submit" name="Winodws Login" class="btn btn-info btn-md" value="Winodws Login" ng-click="WindowsLoginCheck()">
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                               
+                                            </td>
+                                        </tr>
+                                        
+                                    </table>
+                                   
+                                    
+                                  
+                                    
+
+                                </div>
+                                @*<div id="windows-longin" class="text-right">
+                                    <a href="#" class="text-info">Register here</a>
+                                    <input type="submit" name="submit" class="btn btn-info btn-md" value="Winodws Login" ng-click="WindowsLoginCheck()">
+                                </div>*@
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

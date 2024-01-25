@@ -1,0 +1,215 @@
+﻿@{
+    ViewBag.Title = "POBulkUpdate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+
+
+<html ng-app="myApp">
+<head>
+    <title></title>
+
+
+    <script src="~/Scripts/angular.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Content/Module.js/Module.js"></script>
+    <script src="~/Content/Controller.js/UploadExcelController.js"></script>
+    <script src="~/Content/Service.js/UploadExcelService.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.full.min.js"></script>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+    @*<script src="~/Content/Angular/dirPagination.js"></script>*@
+    <link href="~/css/Common.css" rel="stylesheet" />
+    <script src="~/Content/xlsx-model.js"></script>
+
+
+</head>
+<body>
+    <div class="header">
+        <h1 style="color: black">PO Attribute Update Tool</h1>
+
+    </div>
+
+    <div class="form-group" ng-controller="uploadExcelCntrl" style="border: 1px solid #9C9C9C">
+        <div>
+            <div id="showvalidationmessage" style="color:red">
+                {{showvalidationmessage}}
+            </div>
+            <div id="uploadexcel">
+                <div class="container">
+                    <table>
+                        <tr>
+                        </tr>
+                    </table>
+                    <h2>Select or drop XLSX files:</h2>
+                    <input id="inputfile" type="file" class="form-control" xlsx-model="excel" multiple title="Please select .xls,.xlsx,.csv file only.">
+                   
+                    <div ng-show="IsVisibleexceldiv">
+                        <pre id="exceljsondata" ng-show="excel">{{excel | json}}</pre>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="container">
+
+
+                <table class="table table-condensed table-hover">
+                 
+                    <tr>
+                        <td>
+                            <label> Copy and Paste data from excel</label>
+                        </td>
+                        <td>
+                          
+                            <textarea rows="5" cols="60" name="poNumberAttrTypeAttrStatus" id="txtcopypastefromexcel" ng-model="poNumberAttrTypeAttrStatus" title="Copy Excel data in below order PONumber,AttributeType,AttributeStatus and deselect header"> Enter details here... </textarea>
+
+                        </td>
+                        <!--<td>-->
+                            @*<div ng-model="msg" style="color: red">
+                                    {{Copypastefromexcelmsg}}
+                                </div>*@
+                        <!--</td>-->
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label> Batch No</label>
+                        </td>
+                        <td>
+                            <input type="text" readonly="readonly" ng-model="batchNo"/>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-primary lightsteelblue"   value="Add" ng-click="AddRecords()" ng-show="!IsVisible" id="btnadd" data-tooltip="Hovered content"/>
+                            <input type="button" class="btn btn-primary lightsteelblue"   value="Update" ng-show="IsVisible" ng-click="UpdatePOAttribute()" id="btnupdate" />
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div>
+                <table cellpadding="12" class="table table-bordered table-hover">
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-primary;" style="background-color: lightsteelblue; color: black;" value="Items" id="btnItems" ng-click="ShowItemErrormessagediv($event)" />
+                            <input type="button" class="btn btn-primary;" style="background-color: lightsteelblue; color: black" value="Errors" id="btnErrors" ng-click="ShowItemErrormessagediv($event)" />
+                        </td>
+                        @*<td>
+                                <input type="button" class="btn btn-primary;" style="background-color: lightsteelblue; color: black"  value="Errors" id="btnErrors"   ng-click="ShowItemErrormessagediv($event)"/>
+                            </td>*@
+                    </tr>
+
+                </table>
+            </div>
+            <div id="items" ng-show="divitems">
+                <table cellpadding="12" class="table table-bordered table-hover">
+                    <tr class="tabletr">
+                         
+                        <td>
+                            <b>PO Number</b>
+
+                        </td>
+                        <td>
+                            <b>Attribute Type</b>
+                        </td>
+                        <td>
+                            <b>Attribute Status</b>
+                        </td>
+                        <td>
+                            <b>Error Message</b>
+                        </td>
+                        <td>
+                            <b>ID</b>
+
+                        </td>
+                        <td>
+                            <b>Delete</b>
+
+                        </td>
+                    </tr>
+                    <tr ng-repeat="PO in POAttribute">
+                        
+                        
+                        <td contenteditable='true'>
+                            {{PO.PONumber}}   
+                        </td>
+                        <td contenteditable='true'>
+                            {{PO.AttributeType}}
+                        </td>
+                        <td contenteditable='true'>
+                            {{PO.AttributeStatus}}
+                        </td>
+                        <td>
+                            {{PO.ErrorMessage}}
+                        </td>
+                        <td>
+                            {{PO.ID}}
+                        </td>
+                        <td>
+                            <input type="Image" class="btn btn-primary" style="background-color: lightsteelblue; color: black" value="Delete" ng-click="DeletePOattribute(PO)" src="~/css/Images/trash3.svg" />
+                      </td>
+                    </tr>
+                </table>
+            </div>
+
+
+            <div id="errormessages" ng-show="diverrormessages">
+                <table cellpadding="12" class="table table-bordered table-hover">
+                    <tr class="tabletr">
+                        <td>
+
+                            <input type="checkbox" ng-model="IsAllChecked" ng-change="CheckUncheckAll()" />
+
+                        </td>
+                        <td>
+                            <b>Error Messages</b>
+                        </td>
+                        @*<td>
+                            <b>No</b>
+                        </td>*@
+                    </tr>
+                    <tr ng-repeat="EL in Errorlist" id="errormsgtr">
+                        @*<td contenteditable='true'>*@
+                        <td for="chkErrorlist_{{EL.ID}}">
+                            <input id="chkErrorlist_{{EL.ID}}" type="checkbox" ng-model="EL.Selected" ng-change="CheckUncheckHeader()" />
+                            {{EL.ID}}
+                        </td>
+                        <td ng-click="GotoItems(EL)">
+                            {{EL.ErrorMessage}}
+                        </td>
+                        @*<td>
+                            {{EL.ID}}
+                        </td>*@
+
+                    </tr>
+                </table>
+
+            </div>
+            <div>
+                <input type="button" class="btn btn-primary" style="background-color: lightsteelblue; color: black" value="Commit" ng-disabled="!(boolIsDataValid)" id="btnsavealldata" ng-click="CommitData()"/>
+                <input type="button" class="btn btn-primary" style="background-color: lightsteelblue; color: black" value="Save&Validate" ng-disabled="!(enabledisablesavevalidationbtn)" ng-show="!IsVisible" ng-click="ValidateData()" id="btnsavevalidate" />
+            </div>
+            <div id="commitmsg" style="color:lightseagreen">
+                {{commitmsg}}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

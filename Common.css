@@ -1,0 +1,62 @@
+﻿/* Style the body */
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+/* Header/Logo Title */
+.header {
+    padding: 0px;
+    text-align: center;
+    background: lightsteelblue;
+    color: white;
+    font-size: 30px;
+}
+.tabletr {
+    background: lightsteelblue;
+}
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: blue;
+}
+.tbodyverticalscrollbar {
+    height: 450px;
+    overflow-y: auto;
+    display: block;
+}
+.lightsteelblue {
+    background-color: lightsteelblue;
+    color:black;
+}
+.maintitle {
+    color: white;
+    text-align: center;
+}
+.usernametitle {
+    text-align: right;
+    color: white;
+}
+.verticalmenudiv {
+    height: 770px;
+    width: 200px;
+    background-color: lightsteelblue;
+}
+.mainmenutitle {
+    color: black;
+    font-size: x-large;
+    font-family: ui-monospace;
+}
+.submenutitle {
+    color: darkred;
+    font-family: ui-monospace;
+    font-size: large;
+}
+
+/*.btnblue {  
+    
+    border: 2px solid #f44336;
+}*/
+

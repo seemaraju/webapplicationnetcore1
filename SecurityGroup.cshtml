@@ -1,0 +1,182 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+
+<html ng-app="myApp">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/angular.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.full.min.js"></script>
+
+    <script src="~/Content/Module.js/Module.js"></script>
+    <script src="~/Content/Service.js/SecurityGroupService.js"></script>
+    <script src="~/Content/Controller.js/SecurityGroupController.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+    @*<script src="~/Content/Angular/dirPagination.js"></script>*@
+    <link href="~/css/Common.css" rel="stylesheet" />
+    <script src="~/Scripts/angucomplete-alt.js"></script>
+    <link href="~/css/angucomplete-alt.css" rel="stylesheet" />
+    <script src="~/Content/xlsx-model.js"></script>
+
+    <title>SecurityGroup</title>
+</head>
+<body>
+    <div class="header">
+        <h1 style="color: black">Security Group</h1>
+
+    </div>
+
+    <div class="form-group" ng-controller="securitygroupCntrl" style="border: 1px solid #9C9C9C">
+        <div ng-init="GetUserGroups('GetAllADGroupName')">
+
+            <div id="filterdiv">
+                <table class="table table-condensed">
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-primary lightsteelblue"  value="Search" ng-click="searchgroup($event)" id="btnsearchgroup" />
+                            <input type="button" class="btn btn-primary lightsteelblue"  value="Create Group" ng-click="searchgroup($event)" id="btncreategroup" />
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+            <div class="container" ng-show="showhidecreategroupdiv">
+
+
+                <table class="table table-condensed table-hover">
+
+                    <tr>
+                        <td>
+                            Group Name
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="groupName">
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+                    <td>
+                        @*User Name*@
+                        {{ValidationMsg}}
+                    </td>
+                    <td>
+                        @*<input type="text" class="form-control" ng-model="userName">*@
+
+
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-primary lightsteelblue"  value="save" ng-click="SaveNewSecurityGroup()" id="btnsecuritygroup" />
+
+
+                        </td>
+                        <td>
+                            <div id="showsuccessmessage" style="color:green">
+                                {{showsuccessmessage}}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+
+            @*<div>
+                <div>
+                    <input type="text" class="form-control" id="txtgroupname"  ng-model="searchADGroupname"
+                         angucomplete-alt  placeholder="Group Name" pause="100"
+                     selected-object="SelectedADGroup" local-data="ADGroup" search-fields="ADGroup"
+                     title-field="ADGroup" minlength="1" input-class="form-control" match-class="highlight" ng-change="SearchADGroupName()"/>
+                           
+                </div>
+                <hr />
+                Selected Group : {{SelectedADGroup.ADGroup}}
+            </div>*@
+
+            <div id="searchsecuirtygroupdiv" ng-show="divsearchsecuirtygroup">
+
+               
+                <table class="table table-condensed table-hover">
+
+                    <tr>
+                        <td>
+                            Group Name
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="searchgroupname">
+
+                        </td>
+                        <td>
+                            User
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="searchusername">
+
+                        </td>
+
+                    </tr>
+                    
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-primary" style="background-color: lightsteelblue; color: black" value="Search" ng-click="SearchSecurityGroup()" id="btnsearchsecuritygroup" />
+                            <input type="button" class="btn btn-primary" style="background-color: lightsteelblue; color: black" value="Clear" ng-click="clearSearchSecurityGroup()" id="btnclearsecuritygroup" />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {{CheckValidationforSearch}}
+                        </td>
+                    </tr>
+                </table>
+
+
+                <table cellpadding="12" class="table table-bordered table-hover tbodyverticalscrollbar">
+                    <thead>
+                        <tr class="tabletr">
+                            <th>
+                                <b>AD Group Name</b>
+                            </th>
+                            <th>
+                                <b>User</b>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="UserGroupsData in getUserGroupsData">
+                            <td>
+                                {{UserGroupsData.ADGroup}}
+                            </td>
+                            <td>
+                                {{UserGroupsData.UserName}}
+                            </td>
+
+                        </tr>
+                    </tbody>
+
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

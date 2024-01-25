@@ -1,0 +1,280 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html ng-app="myApp">
+<head>
+    @*<meta name="viewport" content="width=device-width" />*@
+    @*<script src="~/Scripts/angular.min.js"></script>*@
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.full.min.js"></script>*@
+
+    <script src="~/Content/Module.js/Module.js"></script>
+    <script src="~/Content/Service.js/AuditService.js"></script>
+    <script src="~/Content/Controller.js/AuditController.js"></script>
+    @*<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>*@
+    @*<script src="~/Content/Angular/dirPagination.js"></script> ;style={'background-color' : 'green'}*@
+    @*<link href="~/css/Common.css" rel="stylesheet"/>*@
+    @*<script src="~/Content/xlsx-model.js"></script>*@
+    <title>Audit</title>
+</head>
+<body>
+    <div class="header">
+        <h1 style="color: black">Audit</h1>
+
+    </div>
+
+    <div class="form-group" ng-controller="auditCntrl" style="border: 1px solid #9C9C9C">
+        <div ng-init="GetAuditHeaders('GetAuditHeaders')">
+
+            <div id="filterdiv">
+                <table class="table table-condensed">
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-primary" style="background-color: lightsteelblue; color: black" value="Filter" ng-click="filter()"  id="btnfilter" />
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+            <div class="container" ng-show="hideshowfilterdiv">
+
+
+                <table class="table table-condensed table-hover">
+
+                    <tr>
+                        <td>
+                            <label> PO Number</label>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="searchponumber">
+
+                        </td>
+                        <td>
+                            Batch ID
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="searchbatchid">
+
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            Attribute Type
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="searchattributetype">
+
+                        </td>
+                        <td>
+                            Created By
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="searchcreatedby"/>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            Attribute Status
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="searchattributestatus">
+
+                        </td>
+                        <td>
+                            Created Date
+                        </td>
+                        <td>
+                            <input type="date" class="form-control" ng-model="searchcreateddate"/>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Committed By
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" ng-model="searchcommittedby">
+
+                        </td>
+                        <td>
+                            Comitted Date
+                        </td>
+                        <td>
+                            <input type="date" class="form-control" ng-model="searchcommitteddate" />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-primary" style="background-color: lightsteelblue; color: black" value="Search" ng-click="SearchRecords()" id="btnsearch" />
+                            <input type="button" class="btn btn-primary" style="background-color: lightsteelblue; color: black" value="Clear" ng-click="ClearRecords()" id="btnclear" />
+
+                        </td>
+                        <td>
+                            {{lblerrormessage}}  
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
+            <div>
+                <table cellpadding="12" class="table table-bordered table-hover">
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-primary lightsteelblue;"  value="Audit Headers" id="btnAuditHeaders" ng-click="Showhideaudittab($event)"  />
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-primary lightsteelblue;" value="Audit Details" id="btnAuditDetails" ng-click="Showhideaudittab($event)" />
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div id="auditheadersdiv" ng-show="divauditheaders">
+                <table cellpadding="12" class="table table-bordered table-hover">
+                    <tr class="tabletr">
+                        <td>
+                            <b>Batch ID</b>
+                        </td>
+                        <td>
+                            <b>Created By</b>
+                        </td>
+                        <td>
+                            <b>Created Date</b>
+                        </td>
+                        <td>
+                            <b>Committed By</b>
+                        </td>
+                        <td>
+                            <b>Committed Date </b>
+
+                        </td>
+                        <td>
+                            <b>Processing Date</b>
+
+                        </td>
+                    </tr>
+                    <tr ng-repeat="auditHeadersData in getAuditHeadersData">
+                        <td>
+                            {{auditHeadersData.BatchID}}
+                        </td>
+                        <td>
+                            {{auditHeadersData.CreatedBy}}
+                        </td>
+                        <td>
+                            {{auditHeadersData.CreatedDate | date:'dd-MM-yyyy hh:mm:ss a'}}
+                        </td>
+                        <td>
+                            {{auditHeadersData.ComittedBy}}
+                        </td>
+                        <td>
+                            {{auditHeadersData.ComittedDate | date:'dd-MM-yyyy hh:mm:ss a'}}
+                        </td>
+                        <td>
+                            {{auditHeadersData.ProcessingDate | date:'dd-MM-yyyy hh:mm:ss a'}}
+                        </td>
+
+                    </tr>
+                </table>
+
+            </div>
+
+
+            <div id="auditdetailsdiv" ng-show="divauditdetails">
+                <table cellpadding="12" class="table table-bordered table-hover">
+                    <tr class="tabletr">
+                        <td>
+                            <b>Batch ID</b>
+                        </td>
+                        <td>
+                            <b>PO Number</b>
+                        </td>
+                        <td>
+                            <b>Attribute Type</b>
+                        </td>
+                        <td>
+                            <b>Attribute Status</b>
+                        </td>
+                        <td>
+                            <b>Created By</b>
+                        </td>
+                        <td>
+                            <b>Created Date</b>
+                        </td>
+                        <td>
+                            <b>Committed By</b>
+                        </td>
+                        <td>
+                            <b>Committed Date </b>
+
+                        </td>
+                        <td>
+                            <b>Processing Date</b>
+
+                        </td>
+                    </tr>
+                    <tr ng-repeat="auditDetailsData in getAuditDetailstData">
+                        <td>
+                            {{auditDetailsData.BatchID}}
+                        </td>
+                        <td>
+                            {{auditDetailsData.PONumber}}
+                        </td>
+                        <td>
+                            {{auditDetailsData.AttributeType}}
+                        </td>
+                        <td>
+                            {{auditDetailsData.AttributeStatus}}
+                        </td>
+                        <td>
+                            {{auditDetailsData.CreatedBy}}
+                        </td>
+                        <td>
+                            {{auditDetailsData.CreatedDate | date:'dd-MM-yyyy hh:mm:ss a'}}
+                        </td>
+                        <td>
+                            {{auditDetailsData.ComittedBy}}
+                        </td>
+                        <td>
+                            {{auditDetailsData.ComittedDate | date:'dd-MM-yyyy hh:mm:ss a'}}
+                        </td>
+                        <td>
+                            {{auditDetailsData.ProcessingDate | date:'dd-MM-yyyy hh:mm:ss a'}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+
+</body>
+</html>
